@@ -1450,11 +1450,11 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            width: 100%;
-            max-width: 340px;
+            width: calc(100% - 12px);
+            max-width: 430px;
             box-sizing: border-box;
             border-radius: var(--radius);
-            padding: 11px 14px;
+            padding: 12px 16px;
             font-size: 12.5px;
             font-weight: 600;
             letter-spacing: 0.2px;
@@ -1478,10 +1478,82 @@
             background: var(--message-received-bg);
             border-color: var(--border-color);
         }
+        /* 收藏信件卡片 */
+        .call-event-pill.letter-card-pill {
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            gap: 7px;
+            padding: 13px 15px;
+            text-align: left;
+        }
+        .letter-card-head {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .call-event-pill.letter-card-pill .call-event-label {
+            flex: 1;
+            text-align: left;
+            line-height: 1.45;
+            max-width: none;
+            overflow: visible;
+            text-overflow: clip;
+            white-space: normal;
+            word-break: break-word;
+        }
+        /* 卡片外层：宽度与卡片一致，操作栏才能贴着卡片右上角 */
+        .letter-card-message {
+            position: relative;
+            width: calc(100% - 32px);
+            max-width: 430px;
+            margin: 6px auto;
+            padding: 6px 0;
+            box-sizing: border-box;
+        }
+        .call-event-pill.letter-card-pill {
+            width: 100% !important;
+            max-width: 100% !important;
+            align-self: stretch;
+            box-sizing: border-box;
+        }
+        .letter-card-head {
+            width: 100%;
+            box-sizing: border-box;
+        }
+        /* 操作栏：跟普通消息的操作栏长得完全一样 */
+        .letter-card-actions {
+            position: absolute;
+            top: -12px;
+            right: 0;
+            display: flex;
+            padding: 4px 6px;
+            background-color: var(--secondary-bg);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            transform: translateY(5px);
+            transition: var(--transition);
+            z-index: 2147483000;
+        }
+        .letter-card-message:hover .letter-card-actions {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .letter-card-body {
+            white-space: pre-wrap;
+            line-height: 1.75;
+            font-size: 12.5px;
+            font-weight: 500;
+            opacity: 0.92;
+            text-align: left;
+        }
         .call-event-pill .call-event-detail {
             font-weight: 700;
-            color: var(--accent-color);
+            color: var(--message-received-text);
+            opacity: 0.88;
         }
+        .call-event-pill .call-event-label { white-space: nowrap; }
         .call-event-pill--ended {
             background: rgba(var(--accent-color-rgb, 180,140,100), 0.06);
             border-color: rgba(var(--accent-color-rgb, 180,140,100), 0.18);
