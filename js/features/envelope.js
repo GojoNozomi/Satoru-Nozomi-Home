@@ -480,7 +480,7 @@ function writeFavoriteToChat(section, letter) {
     const wd = ['日', '一', '二', '三', '四', '五', '六'];
     const pad = v => String(v).padStart(2, '0');
     const dateStr = d.getFullYear() + '/' + pad(d.getMonth() + 1) + '/' + pad(d.getDate()) + ' 星期' + wd[d.getDay()];
-    const text = '📜 收藏信件 · ' + from + ' 写给 ' + to + '\n' + dateStr + '\n致 ' + to + '：\n' + letter.content;
+    const text = '收藏信件 · ' + from + ' 写给 ' + to + '\n' + dateStr + '\n致 ' + to + '：\n' + letter.content;
     const id = Date.now() + Math.random();
     try {
         addMessage({
@@ -489,7 +489,7 @@ function writeFavoriteToChat(section, letter) {
             text: text,
             timestamp: new Date(),
             status: 'received',
-            type: 'system',
+            type: 'letter-card',
             favorited: false,
             note: null
         });
@@ -505,17 +505,16 @@ window.toggleEnvFavorite = function() {
     if (letter.favorited) {
         letter.favorited = false;
         if (letter.favMsgId) {
-            if (confirm('同时删除聊天记录里这条收藏吗？')) {
-                try {
-                    const idx = messages.findIndex(m => String(m.id) === String(letter.favMsgId));
-                    if (idx > -1) {
-                        messages.splice(idx, 1);
-                        if (typeof renderMessages === 'function') renderMessages(true);
-                        if (typeof throttledSaveData === 'function') throttledSaveData();
-                    }
-                } catch (e) {}
-                letter.favMsgId = null;
-            }
+            // 取消收藏时自动移除聊天里的那张卡片
+            try {
+                const idx = messages.findIndex(m => String(m.id) === String(letter.favMsgId));
+                if (idx > -1) {
+                    messages.splice(idx, 1);
+                    if (typeof renderMessages === 'function') renderMessages(true);
+                    if (typeof throttledSaveData === 'function') throttledSaveData();
+                }
+            } catch (e) {}
+            letter.favMsgId = null;
         }
         showNotification('已取消收藏', 'success');
     } else {
